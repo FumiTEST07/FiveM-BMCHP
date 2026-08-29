@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BMC | Custom Garage &amp; Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400&family=Work+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --graphite:#14171a;
+    --panel:#1d2226;
+    --panel-hi:#262c31;
+    --line:#33393f;
+    --brass:#b6905c;
+    --brass-dim:#8a6f4d;
+    --steel:#7c93a6;
+    --sky:#0f333c;
+    --sky-bright:#5fc9dd;
+    --ink:#ece8e1;
+    --ink-dim:#9298a0;
+    --ink-faint:#5d6368;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--graphite);
+    color:var(--ink);
+    font-family:'Work Sans',sans-serif;
+    font-weight:300;
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--sky-bright);color:var(--graphite);}
+
+  a{color:inherit;text-decoration:none;}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--sky-bright);
+  }
+
+  h1,h2,h3{
+    font-family:'Bodoni Moda',serif;
+    font-weight:500;
+    letter-spacing:.01em;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 clamp(20px,5vw,64px);
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:100;
+    background:rgba(20,23,26,.72);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  header .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:76px;
+  }
+  .brand{
+    font-family:'Bodoni Moda',serif;
+    font-size:1.15rem;
+    letter-spacing:.16em;
+    font-weight:600;
+  }
+  .brand span{color:var(--sky-bright);}
+  nav ul{
+    display:flex;
+    gap:clamp(18px,3vw,40px);
+    list-style:none;
+  }
+  nav a{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-dim);
+    position:relative;
+    padding-bottom:4px;
+    transition:color .25s;
+  }
+  nav a::after{
+    content:'';
+    position:absolute;
+    left:0;bottom:0;
+    width:0;height:1px;
+    background:var(--sky-bright);
+    transition:width .3s ease;
+  }
+  nav a:hover{color:var(--ink);}
+  nav a:hover::after{width:100%;}
+  nav a:focus-visible, a:focus-visible, button:focus-visible{
+    outline:1px solid var(--sky-bright);
+    outline-offset:4px;
+  }
+  @media(max-width:640px){ nav{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+    padding-top:76px;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(95,201,221,.09), transparent 60%),
+      radial-gradient(ellipse 50% 40% at 10% 90%, rgba(124,147,166,.06), transparent 60%);
+    pointer-events:none;
+  }
+  .hero .wrap{position:relative;}
+  .coord-line{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+  }
+  .coord-line .track{
+    position:relative;
+    flex:1;
+    max-width:220px;
+    height:1px;
+    background:var(--line);
+  }
+  .coord-line .dot{
+    position:absolute;
+    top:50%;left:0;
+    width:6px;height:6px;
+    margin-top:-3px;
+    border-radius:50%;
+    background:var(--sky-bright);
+    box-shadow:0 0 10px 1px rgba(95,201,221,.6);
+    animation:scan 4.5s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%,100%{left:0;}
+    50%{left:calc(100% - 6px);}
+  }
+  .hero h1{
+    font-size:clamp(3rem,9vw,6.4rem);
+    line-height:.94;
+    max-width:14ch;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--sky-bright);
+  }
+  .hero .tagline{
+    margin-top:26px;
+    max-width:46ch;
+    font-size:clamp(1rem,1.6vw,1.2rem);
+    color:var(--ink-dim);
+    font-weight:300;
+  }
+  .hero .meta-row{
+    margin-top:56px;
+    display:flex;
+    gap:clamp(28px,6vw,64px);
+    flex-wrap:wrap;
+  }
+  .meta-row .item .k{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.68rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:6px;
+  }
+  .meta-row .item .v{
+    font-size:.95rem;
+    color:var(--ink);
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{
+    padding:clamp(80px,12vw,140px) 0;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:24px;
+    margin-bottom:clamp(40px,6vw,64px);
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(2rem,4.2vw,3rem);
+    margin-top:10px;
+  }
+  .section-head .desc{
+    max-width:34ch;
+    color:var(--ink-dim);
+    font-size:.92rem;
+  }
+
+  /* ---------- ATELIER ---------- */
+  .atelier-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:clamp(30px,6vw,80px);
+    align-items:start;
+  }
+  .atelier-grid p{
+    color:var(--ink-dim);
+    margin-bottom:18px;
+    max-width:52ch;
+  }
+  .atelier-grid p:first-child{
+    font-size:1.05rem;
+    color:var(--ink);
+  }
+  .stat-block{
+    border-left:1px solid var(--line);
+    padding-left:24px;
+  }
+  .stat-block .stat{
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .stat-block .stat:first-child{padding-top:0;}
+  .stat-block .num{
+    font-family:'Bodoni Moda',serif;
+    font-size:2.1rem;
+    color:var(--brass);
+  }
+  .stat-block .label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.68rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-top:4px;
+  }
+  @media(max-width:760px){ .atelier-grid{grid-template-columns:1fr;} }
+
+  /* ---------- SERVICES ---------- */
+  .bay{
+    border-bottom:1px solid var(--line);
+    padding:28px 0;
+    display:grid;
+    grid-template-columns:80px 1.4fr 1.6fr auto;
+    gap:24px;
+    align-items:center;
+    transition:background .3s;
+  }
+  .bay:hover{background:rgba(95,201,221,.05);}
+  .bay:first-child{border-top:1px solid var(--line);}
+  .bay .baynum{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--brass-dim);
+    font-size:.78rem;
+    letter-spacing:.1em;
+  }
+  .bay h3{
+    font-size:1.25rem;
+    font-weight:500;
+  }
+  .bay .items{
+    color:var(--ink-dim);
+    font-size:.86rem;
+  }
+  .bay .price{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--ink);
+    font-size:.92rem;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .bay .price .dur{
+    display:block;
+    color:var(--ink-faint);
+    font-size:.72rem;
+    margin-top:4px;
+  }
+  @media(max-width:700px){
+    .bay{grid-template-columns:1fr;gap:8px;}
+    .bay .price{text-align:left;}
+  }
+
+  /* ---------- MATERIAL LIBRARY ---------- */
+  .swatch-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:2px;
+    background:var(--line);
+  }
+  .swatch{
+    background:var(--graphite);
+    padding:22px 20px 20px;
+    min-height:190px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    position:relative;
+    overflow:hidden;
+  }
+  .swatch .chip{
+    position:absolute;
+    inset:0;
+    opacity:.9;
+    transition:transform .5s ease;
+  }
+  .swatch:hover .chip{transform:scale(1.06);}
+  .swatch .info{
+    position:relative;
+    z-index:2;
+    background:linear-gradient(to top, rgba(20,23,26,.92), transparent);
+    margin:-22px -20px -20px;
+    padding:40px 20px 18px;
+  }
+  .swatch .name{
+    font-family:'Bodoni Moda',serif;
+    font-size:1.05rem;
+    color:#fff;
+  }
+  .swatch .code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.68rem;
+    letter-spacing:.14em;
+    color:rgba(255,255,255,.75);
+    margin-top:4px;
+    text-transform:uppercase;
+  }
+  .chip.c1{background:linear-gradient(135deg,#1c2f4a,#3a5a7a 55%,#7c93a6);}
+  .chip.c2{background:linear-gradient(135deg,#2b2b2b,#4a4a4a 55%,#6b6b6b);}
+  .chip.c3{background:linear-gradient(135deg,#8a6a2a,#b6905c 55%,#e4c893);}
+  .chip.c4{background:linear-gradient(135deg,#3a1414,#6e1f22 55%,#a83c3c);}
+  .chip.c5{background:linear-gradient(135deg,#0f2b25,#1f5245 55%,#4d8c76);}
+  .chip.c6{background:linear-gradient(135deg,#2a2438,#4d3f66 55%,#8672a8);}
+
+  /* ---------- BOOKING ---------- */
+  .booking-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(30px,6vw,80px);
+  }
+  .booking-grid .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:clamp(28px,4vw,40px);
+  }
+  .booking-grid h3{
+    font-size:1.4rem;
+    margin-bottom:18px;
+  }
+  .booking-grid .row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+    font-size:.88rem;
+  }
+  .booking-grid .row:last-child{border-bottom:none;}
+  .booking-grid .row .k{color:var(--ink-faint);}
+  .booking-grid .row .v{
+    font-family:'IBM Plex Mono',monospace;
+    color:var(--ink);
+  }
+  .booking-grid .note{
+    margin-top:20px;
+    font-size:.84rem;
+    color:var(--ink-dim);
+  }
+  .cta-line{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-top:28px;
+  }
+  .cta-line .phone{
+    font-family:'Bodoni Moda',serif;
+    font-size:2rem;
+    color:var(--sky-bright);
+    letter-spacing:.04em;
+  }
+  @media(max-width:760px){ .booking-grid{grid-template-columns:1fr;} }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:48px 0 36px;
+    border-top:1px solid var(--line);
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  footer .fmeta{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.68rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+  }
+  footer .fbrand{
+    font-family:'Bodoni Moda',serif;
+    letter-spacing:.14em;
+    font-size:.95rem;
+    color:var(--ink-dim);
+  }
+
+  /* reveal on scroll */
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .reveal.in{opacity:1;transform:none;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">B<span>M</span>C</div>
+    <nav>
+      <ul>
+        <li><a href="#atelier">Atelier</a></li>
+        <li><a href="#facility">Facility</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#library">Material Library</a></li>
+        <li><a href="#booking">Booking</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="coord-line">
+      <span class="eyebrow">LOS SANTOS — CUSTOM GARAGE</span>
+      <span class="track"><span class="dot"></span></span>
+    </div>
+    <h1>一台の速さを、<br><em>静かに</em>仕立てる。</h1>
+    <p class="tagline">BMCは、一台ごとに向き合うカスタムガレージ&amp;アトリエ。ボディワークからチューニング、内装の一針まで、既製の選択肢ではなく「その一台」のための仕立てを行います。</p>
+    <div class="meta-row">
+      <div class="item">
+        <div class="k">Established</div>
+        <div class="v">Season 3, ゼロGR地区</div>
+      </div>
+      <div class="item">
+        <div class="k">Turnaround</div>
+        <div class="v">性能カスタム 約10分/台</div>
+      </div>
+      <div class="item">
+        <div class="k">Location</div>
+        <div class="v">ロスサントス市内</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="atelier">
+  <div class="wrap">
+    <div class="atelier-grid">
+      <div class="reveal">
+        <span class="eyebrow">Philosophy</span>
+        <h2 style="margin:14px 0 26px;">仕上げに、<br>作業台の跡を残さない。</h2>
+        <p>私たちは「量」ではなく「一台にかける時間」を看板にしています。持ち込まれた車の癖、オーナーの走り方、乗る街の空気まで見た上で、初めて仕様を決める。それがBMCのやり方です。</p>
+        <p>塗装もチューニングも内装も、すべて自社ベイで完結。外注に出さないことが、仕上がりの一貫性になると考えています。</p>
+      </div>
+      <div class="stat-block reveal">
+        <div class="stat">
+          <div class="num">週6日</div>
+          <div class="label">Open Days / 対応可能日（木曜定休）</div>
+        </div>
+        <div class="stat">
+          <div class="num">歓迎</div>
+          <div class="label">Walk-in / 飛び込み対応</div>
+        </div>
+        <div class="stat">
+          <div class="num">+¥50万</div>
+          <div class="label">Full Custom / おまかせ外装カスタム</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="facility">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Facility</span>
+        <h2>フロア案内</h2>
+      </div>
+      <p class="desc">整備区画から屋上まで、一つの建物の中に工房と社交場を併せ持っています。</p>
+    </div>
+    <div class="meta-row reveal" style="margin-top:0;">
+      <div class="item">
+        <div class="k">1F</div>
+        <div class="v">ダイノルーム／塗装ブース／リフトベイ／パーツショップ</div>
+      </div>
+      <div class="item">
+        <div class="k">2F</div>
+        <div class="v">カーショーケース／ラウンジ＆軽食／見晴らしバルコニー</div>
+      </div>
+      <div class="item">
+        <div class="k">Rooftop</div>
+        <div class="v">ヘリポート×2／カートコース（イベント時開放）</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Services</span>
+        <h2>ベイ別・施工メニュー</h2>
+      </div>
+      <p class="desc">価格は基本工賃の目安です。車種・状態により変動するため、正式見積りは持ち込み時にご案内します。</p>
+    </div>
+
+    <div class="bay reveal">
+      <div class="baynum">BAY 01</div>
+      <h3>ボディ &amp; ペイント</h3>
+      <div class="items">フルラップ／鏡面ポリッシュ／セラミックコーティング（塗装ブース）</div>
+      <div class="price">¥ 100,000<span class="dur">1箇所につき・所要 1〜2日</span></div>
+    </div>
+    <div class="bay reveal">
+      <div class="baynum">OPTION</div>
+      <h3>スタッフおまかせ外装カスタム</h3>
+      <div class="items">塗装・ラップ・ホイールまで仕様を全てスタッフに一任。世界に一台の仕上がりをお届けします（BAY01施工への追加オプション）</div>
+      <div class="price">+¥ 500,000<span class="dur">工期は要相談</span></div>
+    </div>
+    <div class="bay reveal">
+      <div class="baynum">BAY 02</div>
+      <h3>パフォーマンス</h3>
+      <div class="items">ECUチューニング／エキゾースト換装／サスペンション調整（ダイノルーム・リフトベイ）</div>
+      <div class="price">要相談<span class="dur">所要 約10分</span></div>
+    </div>
+    <div class="bay reveal">
+      <div class="baynum">BAY 03</div>
+      <h3>インテリア・アトリエ</h3>
+      <div class="items">レザー張替え／ステッチカスタム／オーディオ導入</div>
+      <div class="price">¥ 100,000<span class="dur">1箇所につき・所要 1日</span></div>
+    </div>
+    <div class="bay reveal">
+      <div class="baynum">BAY 04</div>
+      <h3>ホイール &amp; タイヤ</h3>
+      <div class="items">鍛造ホイールオーダー／キャンバー調整／バランシング（リフトベイ）</div>
+      <div class="price">¥ 100,000<span class="dur">1箇所につき・所要 2〜3時間</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="library">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Material Library</span>
+        <h2>塗装・ラップ仕上げ見本</h2>
+      </div>
+      <p class="desc">アトリエで扱う定番フィニッシュの一部です。オリジナル調色のご相談も承ります。</p>
+    </div>
+  </div>
+  <div class="swatch-grid reveal">
+    <div class="swatch"><div class="chip c1"></div><div class="info"><div class="name">Midnight Cobalt</div><div class="code">Pearl Gloss — No.114</div></div></div>
+    <div class="swatch"><div class="chip c2"></div><div class="info"><div class="name">Ash Graphite</div><div class="code">Matte Finish — No.207</div></div></div>
+    <div class="swatch"><div class="chip c3"></div><div class="info"><div class="name">Champagne Brass</div><div class="code">Satin Metallic — No.034</div></div></div>
+    <div class="swatch"><div class="chip c4"></div><div class="info"><div class="name">Garnet Blood</div><div class="code">Deep Gloss — No.881</div></div></div>
+    <div class="swatch"><div class="chip c5"></div><div class="info"><div class="name">Verdant Steel</div><div class="code">Satin Wrap — No.512</div></div></div>
+    <div class="swatch"><div class="chip c6"></div><div class="info"><div class="name">Dusk Violet</div><div class="code">Pearl Matte — No.639</div></div></div>
+  </div>
+</section>
+
+<section id="booking">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Booking</span>
+        <h2>ご予約について</h2>
+      </div>
+    </div>
+    <div class="booking-grid">
+      <div class="panel reveal">
+        <h3>営業時間</h3>
+        <div class="row"><span class="k">営業時間</span><span class="v">19:00 – 翌 02:00</span></div>
+        <div class="row"><span class="k">営業日</span><span class="v">日・月・火・水・金・土</span></div>
+        <div class="row"><span class="k">定休日</span><span class="v">木曜日</span></div>
+        <p class="note">飛び込みでのご来店も可能な範囲で対応しますが、確実な施工枠の確保のため事前予約を推奨しています。</p>
+      </div>
+      <div class="panel reveal">
+        <h3>ご連絡先</h3>
+        <div class="cta-line">
+          <span class="eyebrow">TEL</span>
+          <span class="phone">555-0134</span>
+        </div>
+        <p class="note">店舗前の受付端末、またはお電話にて承ります。持ち込み車種・希望内容を事前にお伝えいただくとスムーズです。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fbrand">BMC</div>
+    <div class="fmeta">Custom Garage &amp; Atelier — Los Santos</div>
+    <div class="fmeta" id="clock"></div>
+  </div>
+</footer>
+
+<script>
+  // footer clock (flavor detail — shows visitor's local time as in-world time)
+  const clockEl = document.getElementById('clock');
+  function tick(){
+    const d = new Date();
+    const hh = String(d.getHours()).padStart(2,'0');
+    const mm = String(d.getMinutes()).padStart(2,'0');
+    if(clockEl) clockEl.textContent = `LOCAL TIME — ${hh}:${mm}`;
+  }
+  tick();
+  setInterval(tick, 1000*15);
+
+  // scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:.15});
+  reveals.forEach(el=>io.observe(el));
+
+  // smooth-scroll offset for fixed header (native scroll-behavior handles most cases)
+</script>
+
+</body>
+</html>
